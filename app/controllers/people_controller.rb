@@ -30,7 +30,8 @@ class PeopleController < ApplicationController
     respond_to do |format|
       if @person.save
 
-        create_lead_on_salesforce(@person.name, @person.last_name, @person.email, @person.company, @person.job_title, @person.phone, @person.website)
+        user = User.first
+        create_lead_on_salesforce(user.Id, @person.name, @person.last_name, @person.email, @person.company, @person.job_title, @person.phone, @person.website)
 
         format.html { redirect_to @person, notice: 'Person was successfully created.' }
         format.json { render :show, status: :created, location: @person }
@@ -76,7 +77,7 @@ class PeopleController < ApplicationController
       params.require(:person).permit(:name, :last_name, :email, :company, :job_title, :phone, :website)
     end
 
-    def create_lead_on_salesforce(first_name, last_name, email, company, job_title, phone, website)
+    def create_lead_on_salesforce(owner_id, first_name, last_name, email, company, job_title, phone, website)
       lead = Lead.new
       lead['FirstName'] = first_name
       lead['LastName'] = last_name
@@ -85,8 +86,7 @@ class PeopleController < ApplicationController
       lead['Title'] = job_title
       lead['Phone'] = phone
       lead['Website'] = website
-      user = User.first
-      lead['OwnerId'] = user.Id
+      lead['OwnerId'] = owner_id
       lead['IsConverted'] = false
       lead['IsUnreadByOwner'] = true
       lead.save
