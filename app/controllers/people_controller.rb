@@ -27,26 +27,10 @@ class PeopleController < ApplicationController
   def create
     @person = Person.new(person_params)
 
-    @lead = Lead.new
-    @lead['FirstName'] = @person.name
-    @lead['LastName'] = @person.last_name
-    @lead['Email'] = @person.email
-    user = User.first
-    @lead['OwnerId'] = user.Id
-    @lead['IsConverted'] = false
-    @lead['IsUnreadByOwner'] = true
-
     respond_to do |format|
       if @person.save
 
-        @lead = Lead.new
-        @lead['FirstName'] = @person.name
-        @lead['LastName'] = @person.last_name
-        @lead['Email'] = @person.email
-        user = User.first
-        @lead['OwnerId'] = user.Id
-        @lead['IsConverted'] = false
-        @lead['IsUnreadByOwner'] = true
+        create_lead_on_salesforce(@person.name, @person.last_name, @person.email, @person.company, @person.job_title, @person.phone, @person.website)
 
         format.html { redirect_to @person, notice: 'Person was successfully created.' }
         format.json { render :show, status: :created, location: @person }
@@ -90,5 +74,21 @@ class PeopleController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def person_params
       params.require(:person).permit(:name, :last_name, :email, :company, :job_title, :phone, :website)
+    end
+
+    def create_lead_on_salesforce(first_name, last_name, email, company, job_title, phone, website)
+      @lead = Lead.new
+      @lead['FirstName'] = first_name
+      @lead['LastName'] = last_name
+      @lead['Email'] = email
+      @lead['Company'] = company
+      @lead['Title'] = job_title
+      @lead['Phone'] = phone
+      @lead['Website'] = website
+      user = User.first
+      @lead['OwnerId'] = user.Id
+      @lead['IsConverted'] = false
+      @lead['IsUnreadByOwner'] = true
+      @lead.save
     end
 end
