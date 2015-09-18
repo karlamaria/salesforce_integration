@@ -77,7 +77,7 @@ class PeopleController < ApplicationController
       params.require(:person).permit(:name, :last_name, :email, :company, :job_title, :phone, :website)
     end
 
-    def create_lead_on_salesforce(:owner_id, :first_name, :last_name, :email, :company, :job_title, :phone, :website)
+    def create_lead_on_salesforce(owner_id, first_name, last_name, email, company, job_title, phone, website)
       lead = Lead.new
       lead['FirstName'] = :first_name
       lead['LastName'] = :last_name
