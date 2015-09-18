@@ -29,9 +29,9 @@ class PeopleController < ApplicationController
 
 
     @lead = Lead.new
-    @lead['FistName'] = person.name
-    @lead['LastName'] = person.last_name
-    @lead['Email'] = person.email
+    @lead['FistName'] = people.name
+    @lead['LastName'] = people.last_name
+    @lead['Email'] = people.email
     user = User.first
     @lead['OwnerId'] = user.Id
     @lead['IsConverted'] = false
