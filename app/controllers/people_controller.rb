@@ -28,9 +28,9 @@ class PeopleController < ApplicationController
     @person = Person.new(person_params)
 
     @lead = Lead.new
-    @lead['FirstName'] = person.name
-    @lead['LastName'] = person.last_name
-    @lead['Email'] = person.email
+    @lead['FirstName'] = @person.name
+    @lead['LastName'] = @person.last_name
+    @lead['Email'] = @person.email
     user = User.first
     @lead['OwnerId'] = user.Id
     @lead['IsConverted'] = false
