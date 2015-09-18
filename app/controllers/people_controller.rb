@@ -77,18 +77,18 @@ class PeopleController < ApplicationController
     end
 
     def create_lead_on_salesforce(first_name, last_name, email, company, job_title, phone, website)
-      @lead = Lead.new
-      @lead['FirstName'] = first_name
-      @lead['LastName'] = last_name
-      @lead['Email'] = email
-      @lead['Company'] = company
-      @lead['Title'] = job_title
-      @lead['Phone'] = phone
-      @lead['Website'] = website
+      lead = Lead.new
+      lead['FirstName'] = first_name
+      lead['LastName'] = last_name
+      lead['Email'] = email
+      lead['Company'] = company
+      lead['Title'] = job_title
+      lead['Phone'] = phone
+      lead['Website'] = website
       user = User.first
-      @lead['OwnerId'] = user.Id
-      @lead['IsConverted'] = false
-      @lead['IsUnreadByOwner'] = true
-      @lead.save
+      lead['OwnerId'] = user.Id
+      lead['IsConverted'] = false
+      lead['IsUnreadByOwner'] = true
+      lead.save
     end
 end
