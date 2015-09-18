@@ -27,7 +27,6 @@ class PeopleController < ApplicationController
   def create
     @person = Person.new(person_params)
 
-
     @lead = Lead.new
     @lead['FirstName'] = person.name
     @lead['LastName'] = person.last_name
@@ -39,6 +38,16 @@ class PeopleController < ApplicationController
 
     respond_to do |format|
       if @person.save
+
+        @lead = Lead.new
+        @lead['FirstName'] = @person.name
+        @lead['LastName'] = @person.last_name
+        @lead['Email'] = @person.email
+        user = User.first
+        @lead['OwnerId'] = user.Id
+        @lead['IsConverted'] = false
+        @lead['IsUnreadByOwner'] = true
+
         format.html { redirect_to @person, notice: 'Person was successfully created.' }
         format.json { render :show, status: :created, location: @person }
       else
