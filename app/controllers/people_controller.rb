@@ -1,4 +1,5 @@
 class PeopleController < ApplicationController
+  include Databasedotcom::Rails::Controller
   before_action :set_person, only: [:show, :edit, :update, :destroy]
 
   # GET /people
@@ -25,6 +26,16 @@ class PeopleController < ApplicationController
   # POST /people.json
   def create
     @person = Person.new(person_params)
+
+
+    @lead = Lead.new
+    @lead['FistName'] = person.name
+    @lead['LastName'] = person.last_name
+    @lead['Email'] = person.email
+    user = User.first
+    @lead['OwnerId'] = user.Id
+    @lead['IsConverted'] = false
+    @lead['IsUnreadByOwner'] = true
 
     respond_to do |format|
       if @person.save
