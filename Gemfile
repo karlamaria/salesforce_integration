@@ -7,8 +7,8 @@ ruby "2.2.3"
 gem 'rails', '4.2.4'
 # Use postgresql as the database for Active Record
 gem 'pg'
-gem 'databasedotcom'
-gem 'databasedotcom-rails'
+#gem 'salesforceintegration', :path => '/home/karla/workspace/salesforceintegration'
+gem 'salesforceintegration'
 gem 'rails_12factor', group: :production
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 5.0'

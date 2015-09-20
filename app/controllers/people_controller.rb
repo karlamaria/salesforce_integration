@@ -1,5 +1,5 @@
+require 'salesforceintegration'
 class PeopleController < ApplicationController
-  include Databasedotcom::Rails::Controller
   before_action :set_person, only: [:show, :edit, :update, :destroy]
 
   # GET /people
@@ -30,8 +30,8 @@ class PeopleController < ApplicationController
     respond_to do |format|
       if @person.save
 
-        user = User.first
-        create_lead_on_salesforce(user.Id, @person.name, @person.last_name, @person.email, @person.company, @person.job_title, @person.phone, @person.website)
+        salesforceintegration = SalesforceIntegration::SalesforceIntegrationLead.new("3MVG9KI2HHAq33RwYSXuaADxYczYSG11EU6HMpqqBCy9pG8qHhBbvncqDOZsweOo0poZEUbb6dZTxXwBrYd9t", "4730020655226818798", "login.salesforce.com", "desafio@desafio.com.br", "1234qwer")
+        salesforceintegration.create_lead_on_salesforce(@person.name, @person.last_name, @person.email, @person.company, @person.job_title, @person.phone, @person.website)
 
         format.html { redirect_to @person, notice: 'Person was successfully created.' }
         format.json { render :show, status: :created, location: @person }
@@ -75,20 +75,5 @@ class PeopleController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def person_params
       params.require(:person).permit(:name, :last_name, :email, :company, :job_title, :phone, :website)
-    end
-
-    def create_lead_on_salesforce(owner_id, first_name, last_name, email, company, job_title, phone, website)
-      lead = Lead.new
-      lead['FirstName'] = first_name
-      lead['LastName'] = last_name
-      lead['Email'] = email
-      lead['Company'] = company
-      lead['Title'] = job_title
-      lead['Phone'] = phone
-      lead['Website'] = website
-      lead['OwnerId'] = owner_id
-      lead['IsConverted'] = false
-      lead['IsUnreadByOwner'] = true
-      lead.save
     end
 end
