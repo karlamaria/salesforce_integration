@@ -1,6 +1,6 @@
 # salesforce_integration
 
-salesforce_integration is a app, deployed in Heroku, used only demonstrate de salesforceintegration Gem
+salesforce_integration is an app, deployed in Heroku, used only demonstrate de salesforceintegration Gem
 
 # Usage
 
