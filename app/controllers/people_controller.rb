@@ -30,8 +30,8 @@ class PeopleController < ApplicationController
     respond_to do |format|
       if @person.save
 
-        salesforceintegration = SalesforceIntegration::SalesforceIntegrationLead.new("3MVG9KI2HHAq33RwYSXuaADxYczYSG11EU6HMpqqBCy9pG8qHhBbvncqDOZsweOo0poZEUbb6dZTxXwBrYd9t", "4730020655226818798", "login.salesforce.com", "desafio@desafio.com.br", "1234qwer")
-        salesforceintegration.create_lead_on_salesforce(@person.name, @person.last_name, @person.email, @person.company, @person.job_title, @person.phone, @person.website)
+        salesforceintegration = SalesforceIntegration::SalesforceIntegrationLead.new(:client_id => "3MVG9KI2HHAq33RwYSXuaADxYczYSG11EU6HMpqqBCy9pG8qHhBbvncqDOZsweOo0poZEUbb6dZTxXwBrYd9t", :client_secret => "4730020655226818798", :url => "login.salesforce.com", :username => "desafio@desafio.com.br", :password => "1234qwer")
+        salesforceintegration.create_lead_on_salesforce(:first_name => @person.name, :last_name => @person.last_name, :email => @person.email, :company => @person.company, :job_title => @person.job_title, :phone => @person.phone, :password => @person.website)
 
         format.html { redirect_to @person, notice: 'Person was successfully created.' }
         format.json { render :show, status: :created, location: @person }
